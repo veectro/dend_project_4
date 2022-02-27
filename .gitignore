@@ -1,6 +1,7 @@
 venv/
 .idea/
 .ipynb_checkpoints/
+infra/id_rsa.pub
 
 # Terraforn
 .terraform/
