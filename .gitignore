@@ -1,0 +1,11 @@
+venv/
+.idea/
+.ipynb_checkpoints/
+
+# Terraforn
+.terraform/
+.terraform.lock.hcl
+
+dwh.cfg
+
+.env
