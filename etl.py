@@ -15,6 +15,10 @@ os.environ['AWS_SECRET_ACCESS_KEY'] = config['AWS']['AWS_SECRET_ACCESS_KEY']
 
 
 def create_spark_session():
+    """
+    Create a Spark session
+    :return: spark session
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
@@ -23,6 +27,13 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    Process the song dataset into songs and artists tables
+    :param spark: spark session
+    :param input_data: location of source dataset
+    :param output_data: location of target dataset
+    :return: None
+    """
     # get filepath to song data file
     song_data = os.path.join(input_data, 'song_data/*/*/*/*.json')
 
@@ -47,6 +58,14 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    Process the logs dataset into songplay, users and time tables
+
+    :param spark: spark session
+    :param input_data: location of source dataset
+    :param output_data: location of target dataset
+    :return: None
+    """
     # get filepath to log data file
     log_data = os.path.join(input_data, 'log_data/*.json')
 
