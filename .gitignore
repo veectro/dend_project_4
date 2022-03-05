@@ -2,6 +2,8 @@ venv/
 .idea/
 .ipynb_checkpoints/
 infra/id_rsa.pub
+spark-local/
+data/lake/
 
 # Terraforn
 .terraform/
