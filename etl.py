@@ -36,7 +36,11 @@ def process_song_data(spark, input_data, output_data):
     songs_table.write.mode('overwrite').partitionBy('year', 'artist_id').parquet(output_data + 'songs/')
 
     # extract columns to create artists table
-    artists_table = df.select('artist_id', 'artist_name', 'artist_location', 'artist_latitude', 'artist_longitude')
+    artists_table = df.select('artist_id',
+                              F.col('artist_name').alias('name'),
+                              F.col('artist_location').alias('location'),
+                              F.col('artist_latitude').alias('latitude'),
+                              F.col('artist_longitude').alias('longitude'))
 
     # write artists table to parquet files
     artists_table.write.mode('overwrite').parquet(output_data + 'artists/')
@@ -44,7 +48,7 @@ def process_song_data(spark, input_data, output_data):
 
 def process_log_data(spark, input_data, output_data):
     # get filepath to log data file
-    log_data = os.path.join(input_data, 'log_data/*/*/*.json')
+    log_data = os.path.join(input_data, 'log_data/*.json')
 
     # read log data file
     df = spark.read.options(inferSchema='true').json(log_data)
@@ -105,7 +109,17 @@ def process_log_data(spark, input_data, output_data):
 
     songplays_table = songplays_table \
         .withColumn('user_id', F.col('userId').cast(IntegerType())) \
-        .select('start_time', 'user_id', 'level', 'song_id', 'artist_id', 'sessionId', 'location',
+        .withColumn('month', F.month('start_time')) \
+        .withColumn('year', F.year('start_time')) \
+        .select('start_time',
+                'user_id',
+                'level',
+                'song_id',
+                'artist_id',
+                'sessionId',
+                'location',
+                'year',
+                'month',
                 F.col('userAgent').alias('user_agent')) \
         .withColumn('songplay_id', F.monotonically_increasing_id())
 

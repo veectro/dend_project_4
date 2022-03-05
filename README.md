@@ -35,14 +35,12 @@ The process of ETL is described in the following steps:
 ├── data
 │   ├── log_data : dataset of user activity logs
 │   └── song_data : dataset of song metadata
-├── create_table.py : script to create the tables (run this script first)
+├── dl.cfg : AWS Credentials
 ├── docker-compose.yml : docker compose file
 ├── etl.ipynb : notebook to develop ETL pipeline
 ├── etl.py : script to run the ETL pipeline 
 ├── README.md : project documentation
 ├── requirements.txt : list of dependencies need to be installed
-├── sql_queries.py : script containes sql queries and schema for the projects
-└── test.ipynb : script to confirm that records were successfully inserted into each table. 
 ```
 
 ---
@@ -151,6 +149,8 @@ This tables contains the song play events in the log data.
 | session_id  | long      | 818                                |
 | location    | string    | Chicago-Naperville-Elgin, IL-IN-WI |
 | user_agent  | string    | "Mozilla/5.0 (X11; .."             |
+| year        | integer    | 2018                               |
+| month       | integer    | 11                                 |
 
 ---
 
@@ -215,9 +215,9 @@ This tables contains timestamps of records in **songplays** broken down into spe
 ---
 
 ## Run the project
+Make sure to fill out `dl.cfg` with your AWS credentials.
 
-Run the `etl.py` with `spark-submit`
-
-```bash
-python create_tables.py
+Run the `etl.py` 
+```
+python etl.py 
 ```
